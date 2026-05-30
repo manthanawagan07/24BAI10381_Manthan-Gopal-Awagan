@@ -1,0 +1,97 @@
+create database Monday;
+
+show databases;
+
+use VITCAMPUS;
+
+create database vitcampus;
+
+use vitcampus;
+
+show tables from vitcampus;
+
+select * from cse;
+
+create table cse;
+
+desc cse;
+
+ALTER TABLE cse ADD(
+	sdepartment VARCHAR(30)
+); 
+     
+insert into cse values (105,"Tamil",99,'CSE');
+
+ALTER TABLE cse DROP COLUMN sphn2;
+
+ALTER TABLE cse ADD(
+     sCountry varchar(30) DEFAULT 'INDIA'
+);
+
+ALTER TABLE cse RENAME column 
+     sCountry TO SLocation;
+     
+CREATE TABLE Worker (
+	WORKER_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	FIRST_NAME CHAR(25),
+	LAST_NAME CHAR(25),
+	SALARY INT(15),
+	JOINING_DATE DATETIME,
+	DEPARTMENT CHAR(25)
+);
+
+INSERT INTO Worker 
+	(WORKER_ID, FIRST_NAME, LAST_NAME, SALARY, JOINING_DATE, DEPARTMENT) VALUES
+		(001, 'Monika', 'Arora', 100000, '14-02-20 09.00.00', 'HR'),
+		(002, 'Niharika', 'Verma', 80000, '14-06-11 09.00.00', 'Admin'),
+		(003, 'Vishal', 'Singhal', 300000, '14-02-20 09.00.00', 'HR'),
+		(004, 'Amitabh', 'Singh', 500000, '14-02-20 09.00.00', 'Admin'),
+		(005, 'Vivek', 'Bhati', 500000, '14-06-11 09.00.00', 'Admin'),
+		(006, 'Vipul', 'Diwan', 200000, '14-06-11 09.00.00', 'Account'),
+		(007, 'Satish', 'Kumar', 75000, '14-01-20 09.00.00', 'Account'),
+		(008, 'Geetika', 'Chauhan', 90000, '14-04-11 09.00.00', 'Admin');
+        
+        select * from worker;
+        
+        UPDATE worker SET FIRST_name= 'JAYANTH' WHERE worker_id=102;
+        
+UPDATE worker SET FIRST_name= 'JAYANTH' WHERE worker_id=102;
+
+UPDATE worker SET salary =salary+5000;
+
+DELETE FROM worker WHERE worker_id=8;
+
+start transaction;
+
+create table emp(id int);
+insert into emp value (101);
+select * from emp;
+
+savepoint time15;
+
+insert into emp values (102);
+
+savepoint time16;
+
+select * from emp;
+
+rollback to time15;
+
+insert into emp value (103);
+savepoint time17;
+
+ROLLBACK to time16;
+
+insert into emp value (104);
+savepoint time18;
+
+START TRANSACTION;
+
+COMMIT;
+
+UPDATE class SET name ='Abhijit'
+WHERE id='5';
+
+SAVEPOINT A;
+
+INSERT INTO  class VALUES(6,'Chris');
