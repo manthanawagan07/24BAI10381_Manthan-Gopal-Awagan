@@ -1,0 +1,151 @@
+Connect to MongoDB
+
+package crud_operations;
+
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
+
+public class DB_Connection {
+    public static void main(String[] args) {
+
+        String connectionString = "mongodb://localhost:27017";
+
+        try (MongoClient mongoClient = MongoClients.create(connectionString)) {
+
+            MongoDatabase database = mongoClient.getDatabase("testdb");
+
+            System.out.println("Connected successfully to MongoDB!");
+            System.out.println("Database Name: " + database.getName());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+Java Program for CRUD Operations | MongoDB 
+Create, Read, Update, Delete in MongoDB
+
+
+package crud_operations;
+
+import com.mongodb.client.*; 
+import com.mongodb.client.model.Filters; 
+import com.mongodb.client.model.Updates; 
+import org.bson.Document; 
+ 
+public class MongoCRUDExample { 
+ 
+    public static void main(String[] args) { 
+ 
+        // Connect to MongoDB 
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017"); 
+ 
+        // Access database 
+        MongoDatabase database = mongoClient.getDatabase("CollegeDB"); 
+ 
+        // Access collection 
+        MongoCollection<Document> collection = 
+                database.getCollection("Students"); 
+ 
+        // ========================== 
+        // CREATE (Insert) 
+        // ========================== 
+        Document student = new Document("id", 101) 
+                .append("name", "John") 
+                .append("department", "CSE") 
+                .append("cgpa", 8.7); 
+ 
+        collection.insertOne(student); 
+        System.out.println("Document Inserted Successfully"); 
+ 
+        // ========================== 
+        // READ (Find) 
+        // ========================== 
+        System.out.println("\nStudent Records:"); 
+ 
+        FindIterable<Document> students = collection.find(); 
+ 
+        for (Document doc : students) { 
+            System.out.println(doc.toJson()); 
+        } 
+ 
+        // ========================== 
+        // UPDATE 
+        // ========================== 
+        collection.updateOne( 
+                Filters.eq("id", 101), 
+                Updates.set("cgpa", 9.2) 
+        ); 
+ 
+        System.out.println("\nDocument Updated Successfully"); 
+ 
+        // ========================== 
+        // READ Updated Record 
+        // ========================== 
+        Document updatedStudent = 
+                collection.find(Filters.eq("id", 101)).first(); 
+ 
+        System.out.println("\nUpdated Record:"); 
+        System.out.println(updatedStudent.toJson()); 
+ 
+        // ========================== 
+        // DELETE 
+        // ========================== 
+        collection.deleteOne(Filters.eq("id", 101)); 
+ 
+        System.out.println("\nDocument Deleted Successfully"); 
+ 
+        // Close connection 
+        mongoClient.close(); 
+    } 
+} 
+
+
+
+Output
+
+Document Updated Successfully
+
+Updated Record:
+{"_id": {"$oid": "6a20273e6952867f35464477"}, "id": 101, "name": "John", "department": "CSE", "cgpa": 9.2}
+
+Document Deleted Successfully
+__________________________________________________
+
+Insert Many 
+
+
+collection.insertMany(java.util.Arrays.asList( 
+
+new Document("id", 1).append("name", "John"),  
+
+new Document("id", 2).append("name", "Bob"), 
+
+new Document("id", 3).append("name", "Alice")  
+
+));
+
+
+Find specific document
+
+ Document student = collection.find(Filters.eq("id", 102)).first();
+
+
+
+Update 
+
+ collection.updateOne(
+                Filters.eq("id", 102),
+                Updates.set("cgpa", 9.5)
+        );
+
+
+Delete
+
+collection.deleteOne(Filters.eq("id", 103));
+
