@@ -1,0 +1,74 @@
+use vitcampus;
+select * from category;
+drop table products;
+CREATE TABLE products (
+    pid int primary key,
+    pname varchar(100) NOT NULL,
+    cid int, 
+    FOREIGN KEY (cid) REFERENCES category(cid) ON DELETE CASCADE
+);
+desc products;
+
+delete from category where cid=101;
+update 
+
+insert into products values (504,'Power Bank Samsung',64-bit encry key);
+
+select * from products;
+
+
+
+drop table products;
+
+CREATE TABLE products (
+
+pid int primary key,
+
+pname varchar(100) NOT NULL, cid int,
+
+FOREIGN KEY (cid) REFERENCES category(cid) ON UPDATE CASCADE
+);
+
+
+select * from worker;
+Select First_name, department,salary from worker
+where department='admin' order by salary asc;
+
+#Group By - 
+
+select count(worker_id) from worker where department='admin' or department='hr' ;
+
+select department,count(department) from worker 
+group by department order by department asc ;
+
+select department,
+sum(salary)from worker group by department;
+
+
+
+select department, count(department) from worker 
+group by department having count(department) >=3 order by department asc ; 
+
+
+select department ;
+count(department)
+from worker
+group by department 
+having sum(salary)< 300000 
+order by department asc ;
+
+Limit 
+
+select * from worker limit 1 offset 3 ; 
+
+select * from worker limit 2 offset 3 ; 
+
+select * from toppers;
+
+select worker_id, first_name , department from worker
+
+
+
+
+where worker_id in (select id from toppers) ;
+
