@@ -1,0 +1,20 @@
+Create three separate directories to store the data for each MongoDB instance. For example: 
+	C:\data\db0
+	C:\data\db1
+	C:\data\db2
+I’ll quickly check the output from your failed command, then create the three MongoDB data directories in one step.
+That failed because PowerShell tried to execute the path text as a command (and there’s also a leading bullet character). I’m now running a New-Item command to create C:\data\db0, C:\data\db1, and C:\data\db2 if they don’t already exist.
+Done — all three directories were created successfully:
+
+•  C:\data\db0
+•  C:\data\db1
+•  C:\data\db2
+
+
+Start a mongod instance with the specified configuration.
+I’m starting mongod with your exact replica set, port, and dbpath settings as a background process, then I’ll verify it is listening on port 27017.
+$proc = Start-Process -FilePath 'C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe' -ArgumentList '--replSet myReplSet --dbpath C:\data\db0 --port 27017 --bind_ip localhost --logpath C:\data\db0\mongod-27017.log --logappend' -PassThru; Start-Sleep -Seconds 3; $running = Get-Process -Id $proc.Id -ErrorAction SilentlyContinue; if ($running) { $listener = Get-NetTCPConnection -State Listen -LocalPort 27017 -ErrorAction SilentlyContinue; if ($listener) { 'MONGOD_STARTED'; $running | Select-Object Id, ProcessName; $listener | Select-Object LocalAddress, LocalPort, OwningProcess, State } else { 'MONGOD_RUNNING_BUT_PORT_NOT_LISTENING_YET'; $running | Select-Object Id, ProcessName } } else { 'MONGOD_EXITED'; if (Test-Path 'C:\data\db0\mongod-27017.log') { Get-Content 'C:\data\db0\mongod-27017.log' } }
+
+
+rs.initiate() 
+MongoServerError[NoReplicationEnabled]: This node was not started with replication enabled.
